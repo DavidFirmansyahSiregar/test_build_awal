@@ -1,15 +1,27 @@
 import React from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, Input } from "antd";
-// import { useState } from "react";
-// import { Axios } from "axios";
+import { useState } from "react";
+import { Axios } from "axios";
 
 export const LoginPage = () => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
+//   const navigate = useNavigate()
+  const [data, setData] = useState("email, password")
+
+  const Data = ( email,password, [...data]) => {
+    Axios.post("https://63a00cff24d74f9fe82cd33d.mockapi.io/dummydata", {
+      email,
+      password,
+    });
+   
+  };
+
+  const onFinish = (Data) => {
+    console.log("Success:", Data);
+    // navigate("/dashboard");
   };
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
 
   return (
@@ -28,12 +40,12 @@ export const LoginPage = () => {
         initialValues={{
           remember: true,
         }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item
-          name="email"
+          name={data.email}
           label="E-mail"
           rules={[
             {
@@ -46,10 +58,13 @@ export const LoginPage = () => {
             },
           ]}
         >
-          <Input placeholder="Input Email" />
+          <Input 
+          placeholder="Input Email" 
+          onChange={(e) => setData(e.target.email)}
+          />
         </Form.Item>
         <Form.Item
-          name="password"
+          name={data.password}
           label="Password"
           rules={[
             {
@@ -59,7 +74,7 @@ export const LoginPage = () => {
           ]}
           hasFeedback
         >
-          <Input.Password />
+          <Input.Password onChange={(e) => setData(e.target.password)}/>
         </Form.Item>
         <Form.Item
           wrapperCol={{
@@ -68,10 +83,10 @@ export const LoginPage = () => {
           }}
         >
           <Button
-          // onClick={() => {
-          //     localStorage.setItem("credentials", "value");
-          //     navigate("/dashboard");
-          // }}
+          type="primary"
+        //   onClick={() => {
+        //       localStorage.setItem(Data);
+        //   }}
           >
             L O G I N
           </Button>
